@@ -1,0 +1,12 @@
+{
+  "name": "@coloma-design/tokens",
+  "version": "1.0.0",
+  "description": "Design System Tokens for Coloma Design",
+  "license": "MIT",
+  "author": "Carlos Coloma Martínez",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
