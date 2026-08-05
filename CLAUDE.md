@@ -304,6 +304,9 @@ consumir estos tokens desde el portafolio *(después, con calma)*.
 Tipos: `feat`, `fix`, `docs`, `chore`, `refactor`, `style`. Scopes: `tokens`, `viewer`.
 Nunca commitear `.env`, claves ni `node_modules`.
 
+**Documentación o documentos solicidatos:**
+Siempre que Carlos te pide escribir o redactar un documento de planning, documentación o algo que lo ayude a ser una "ayuda memoría" o repaso de las decisiones tomas mientras completa alguna fase. Esos documentos deben ser siempre guardados en la carpeta "./docs" ya que ".gitignore lo omitirá en la carga del commit para que no quede como parte del npm publicado"
+
 ---
 
 ## 📔 Bitácora de aprendizaje
@@ -314,7 +317,7 @@ Claude: al cerrar cada fase, recuérdale actualizarla.
 | Fase | Concepto | Con mis palabras |
 |---|---|---|
 | 1 | Workspaces / hoisting | |
-| 2 | Capa de primitivas | |
+| 2 | Capa de primitivas | | Las bases del sistema de Diseño, tokens que tienen su propio setting standar por industria y que siguen la estructura del DTCG
 | 3 | Aliases y capa semántica | |
 | 4 | `Object.entries()` | |
 | 4 | Recursión | |
