@@ -316,8 +316,8 @@ Claude: al cerrar cada fase, recuérdale actualizarla.
 
 | Fase | Concepto | Con mis palabras |
 |---|---|---|
-| 1 | Workspaces / hoisting | |
-| 2 | Capa de primitivas | | Las bases del sistema de Diseño, tokens que tienen su propio setting standar por industria y que siguen la estructura del DTCG
+| 1 | Workspaces / hoisting | | Permite estructurar un proyecto en diferentes espacios de trabajo y establecer la raiz del proyecto y que es lo que será publicado como paquete NPM.
+| 2 | Capa de primitivas | | Las bases del sistema de Diseño, tokens que tienen su propio setting standar por industria y que siguen la estructura del DTCG. Son valores crudos, no tienen un significado propio, eso se deja para los Token Semánticos.
 | 3 | Aliases y capa semántica | |
 | 4 | `Object.entries()` | |
 | 4 | Recursión | |
