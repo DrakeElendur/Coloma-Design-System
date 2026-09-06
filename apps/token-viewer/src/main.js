@@ -1,4 +1,5 @@
 import './style.css'
+import './components/token-swatch.js'
 import javascriptLogo from './assets/javascript.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -59,7 +60,25 @@ document.querySelector('#app').innerHTML = `
 <div class="ticks"></div>
 <section id="spacer"></section>
 `
-console.log(flattenTokens(tokensPrimarios));
-console.log(flattenTokens(tokensSemanticos));
 
-setupCounter(document.querySelector('#counter'))
+const flatPrimarios = flattenTokens(tokensPrimarios);
+const flatSemanticos = flattenTokens(tokensSemanticos);
+
+const testColorToken = flatPrimarios.find(token => token.type === 'color');
+const testShadowToken = flatPrimarios.find(token => token.type === 'shadow');
+
+const spacerSection = document.querySelector('#spacer');
+
+if (testColorToken) {
+  const colorSwatch = document.createElement("token-swatch");
+  colorSwatch.token = testColorToken;
+  spacerSection.appendChild(colorSwatch);
+}
+
+if (testShadowToken) {
+  const shadowSwatch = document.createElement("token-swatch");
+  shadowSwatch.token = testShadowToken;
+  spacerSection.appendChild(shadowSwatch);
+}
+
+setupCounter(document.querySelector('#counter'));
