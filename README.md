@@ -82,4 +82,4 @@ npm run dev -w apps/token-viewer
 
 ## Autor
 
-**Carlos Coloma** — Design System Manager · [coloma.design](https://coloma.design)
+**Carlos Coloma** — Design System Manager · [coloma.design](https://portafolio.coloma.design)
