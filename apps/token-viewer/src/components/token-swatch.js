@@ -8,8 +8,14 @@ class TokenSwatch extends HTMLElement {
         if (!this.token) return;
 
         const { name, value, type } = this.token;
-        let previewHTML = "";
-        let valueHTML = "";
+        const { previewHTML, valueHTML } = this.constructor.getTemplateData(type, value);
+
+        this.shadowRoot.innerHTML = previewHTML + `<span class="token-value">${valueHTML}</span><br><span class="token-name">${name}</span>`;
+    };
+
+    static getTemplateData(type, value) {
+        let previewHTML;
+        let valueHTML;
 
         switch (type) {
             case "color":
@@ -42,8 +48,7 @@ class TokenSwatch extends HTMLElement {
                 previewHTML = `<div class="swatch">No preview available</div>`
                 valueHTML = `No value available`;
         }
-
-        this.shadowRoot.innerHTML = previewHTML + `<span class="token-value">${valueHTML}</span><br><span class="token-name">${name}</span>`;
+        return { previewHTML, valueHTML };
     }
 }  
 

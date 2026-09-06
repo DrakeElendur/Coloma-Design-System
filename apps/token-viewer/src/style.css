@@ -295,19 +295,3 @@ code {
   }
 }
 
-.swatch {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px; 
-  height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.token-info {
-  display: flex;
-  flex-direction: column;
-}
-.token-name { font-weight: bold; font-size: 16px; }
-.token-value { font-size: 12px; color: #666; }
