@@ -18,4 +18,4 @@ export function flattenTokens(nodo, tipoHeredado = null, ruta = [], acumulador =
         }
     }
     return acumulador;
-}
+};

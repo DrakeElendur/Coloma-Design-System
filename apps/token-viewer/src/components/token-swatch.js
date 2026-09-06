@@ -8,23 +8,74 @@ class TokenSwatch extends HTMLElement {
         if (!this.token) return;
 
         const { name, value, type } = this.token;
-        const { previewHTML, valueHTML } = this.constructor.getTemplateData(type, value);
+        const categoria = name.split('.').at(0);
+        const { previewHTML, valueHTML } = this.constructor.getTemplateData(type, value, categoria);
 
-        this.shadowRoot.innerHTML = previewHTML + `<span class="token-value">${valueHTML}</span><br><span class="token-name">${name}</span>`;
+        this.shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    display: inline-flex;
+                    flex-direction: column;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 12px;
+                    font-family: sans-serif;
+                }
+                .swatch {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 120px; 
+                    height: 120px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    overflow: hidden;
+                }
+                .token-info {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .token-name { font-weight: bold; font-size: 14px; }
+                .token-value { font-size: 12px; color: #666; }
+            </style>
+            ${previewHTML}
+            <div class="token-info">
+                <span class="token-name">${name}</span>
+                <span class="token-value">${valueHTML}</span>
+            </div>`;
     };
 
-    static getTemplateData(type, value) {
+    static getTemplateData(type, value, categoria) {
         let previewHTML;
         let valueHTML;
 
         switch (type) {
             case "color":
-                previewHTML = `<div class="swatch" style="background-color: ${value.hex}; width: 100px; height: 100px;"></div>`
+                previewHTML = `<div class="swatch" style="background-color: ${value.hex}; width: 120px; height: 120px;"></div>`
                 valueHTML =`${value.hex}`;
                 break;
             case "dimension":
-                previewHTML = `<div class="swatch" style="width: ${value.value}${value.unit}; height: ${value.value}${value.unit}; background-color: #ccc;"></div>`
-                valueHTML = `${value.value}${value.unit}`;
+                switch (categoria) {
+                    case "spacing":
+                        previewHTML = `<div class="swatch" style="width: ${value.value}${value.unit}; height: ${value.value}${value.unit}; background-color: #ccc;"></div>`;
+                        valueHTML = `${value.value}${value.unit}`;
+                        break;
+                    case "radius":
+                        previewHTML = `<div class="swatch" style="width: 120px; height: 120px; border-radius: ${value.value}${value.unit}; background-color: #ccc;"></div>`;
+                        valueHTML = `${value.value}${value.unit}`;
+                        break;
+                    case "fontSize":
+                        previewHTML = `<div class="swatch" style="font-size: ${value.value}${value.unit};">Sample Text</div>`;
+                        valueHTML = `${value.value}${value.unit}`;
+                        break;
+                    case "letterSpacing":
+                        previewHTML = `<div class="swatch" style="letter-spacing: ${value.value}${value.unit};">Sample Text</div>`;
+                        valueHTML = `${value.value}${value.unit}`;
+                        break;
+                    default:
+                        previewHTML = `<div class="swatch">No preview available</div>`;
+                        valueHTML = `No value available`;
+                }
                 break;
             case "fontFamily":
                 previewHTML = `<div class="swatch" style="font-family: ${value};">Sample Text</div>`
@@ -40,7 +91,7 @@ class TokenSwatch extends HTMLElement {
                 break;
             case "shadow": {
                 const shadowValue = `${value.offsetX.value}${value.offsetX.unit} ${value.offsetY.value}${value.offsetY.unit} ${value.blur.value}${value.blur.unit} ${value.spread.value}${value.spread.unit} ${value.color.hex}`;
-                previewHTML = `<div class="swatch" style="box-shadow: ${shadowValue}; width: 100px; height: 100px; background-color: #f3f3f3;"></div>`;
+                previewHTML = `<div class="swatch" style="box-shadow: ${shadowValue}; width: 120px; height: 120px; background-color: #f3f3f3;"></div>`;
                 valueHTML = `${shadowValue}`;
                 break;
             }
