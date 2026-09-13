@@ -3,14 +3,25 @@
   "version": "0.1.0",
   "description": "Design System Tokens for Coloma Design",
   "license": "MIT",
-  "files": ["primitive.json", "semantic.json"],
+  "files": [
+    "tokens",
+    "dist"
+  ],
+  "exports": {
+    "./primitive.json": "./tokens/primitive.json",
+    "./semantic.json": "./tokens/semantic.json",
+    "./css": "./dist/css/variables.css"
+  },
   "publishConfig": {
     "access": "public"
   },
   "author": "Carlos Coloma Martínez",
-  "type": "commonjs",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "style-dictionary build",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "style-dictionary": "^5.5.3"
   }
 }

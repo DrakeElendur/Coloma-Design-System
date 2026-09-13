@@ -340,3 +340,172 @@ Claude: al cerrar cada fase, recuérdale actualizarla.
 > **Recordatorio final para Claude:** el éxito de este proyecto no se mide en que el visor
 > funcione. Se mide en que Carlos pueda explicar cada línea que escribió. Si le das código,
 > el proyecto fracasa aunque compile.
+
+---
+---
+
+# 🎛️ PROYECTO 2 — PIPELINE FIGMA → STYLE DICTIONARY
+
+> Continúa en el mismo monorepo. **Todo lo de arriba sigue vigente sin cambios:** Regla Cero,
+> escalera de pistas, válvula de escape y firewall de NDA. Esta sección no los repite — los aplica.
+
+**Decisión de reordenamiento (13 sep 2026):** Carlos decidió invertir el orden original del
+roadmap. Este proyecto (antes "Proyecto 3") pasa a ser el **Proyecto 2**, y la capa de componentes
+(antes "Proyecto 2") pasa a ser el **Proyecto 3** — ver más abajo, pospuesta.
+
+**Razón (con palabras de Carlos):** construir el `Button` primero obligaría a leer los tokens
+semánticos directo del JSON en JS (como hace el visor) para luego tener que **reescribir** esa
+lógica de consumo en cuanto exista el export real a CSS. Construyendo el pipeline primero, el
+componente nace consumiendo variables CSS reales desde el día uno — sin trabajo duplicado.
+
+**Proyecto 1 (tokens + visor) está completo y publicado** (`@coloma-design/tokens@0.1.0` en NPM,
+visor en Vercel, merge a `main`). Este proyecto construye sobre esa base: un pipeline real que
+transforma `packages/tokens` (DTCG) en variables CSS/JS consumibles, y resuelve la sincronización
+con Figma.
+
+## 📋 El proyecto
+
+Montar **Style Dictionary** sobre `packages/tokens` para transformar `primitive.json` y
+`semantic.json` en salidas reales (variables CSS como mínimo). Incluye resolver la pregunta de
+gobernanza Figma↔código que ya quedó anotada en la sección "🎨 Figma y la fuente de verdad" de
+este mismo archivo (ver arriba) — no se repite aquí, se resuelve ahí.
+
+### Contexto ya documentado (no repetir, ya está arriba en este archivo)
+Ver la sección **"🎨 Figma y la fuente de verdad"**: vías de export viables (Token Press, Tokens
+Bruecke, Design Token Exporter, Tokens Studio), la vía descartada (Variables REST API, requiere
+Enterprise), el dato del mapeo `/` → anidamiento JSON, el problema conocido de exports sucios, y la
+pregunta abierta de gobernanza (Figma-first vs. code-first).
+
+## 🚧 Fase 0 · Decisiones pendientes
+
+- [x] **Alcance de esta vuelta:** resuelto (13 sep 2026) — **solo el pipeline JSON → CSS con Style
+      Dictionary, sin tocar Figma.** Figma sigue siendo únicamente referencia visual de
+      acompañamiento, no herramienta de documentación ni de trabajo activo en este proyecto.
+- [x] **Formatos de salida:** resuelto (13 sep 2026) — **solo CSS.** Criterio de Carlos: es lo
+      indispensable para construir la capa de componentes (Proyecto 3) de forma eficiente; un
+      output JS/JSON no tiene consumidor real todavía y se evalúa si aparece esa necesidad más
+      adelante.
+- [ ] **Gobernanza Figma↔código:** **fuera de alcance esta vuelta** (ver decisión de arriba) — la
+      pregunta sigue anotada en la sección de Figma de este archivo, para cuando corresponda
+      retomarla en una iteración futura.
+- [x] **Dónde vive la configuración de Style Dictionary:** resuelto (13 sep 2026) — **dentro de
+      `packages/tokens`**, ampliando el paquete ya publicado. Criterio explícito de Carlos:
+      prioriza adopción futura y simplicidad de instalación por sobre la pureza arquitectónica de
+      separar "fuente" y "build" en paquetes distintos.
+
+## ✅ Checklist tentativo de fases
+
+> Se ajusta según lo que se decida en la Fase 0.
+
+- [x] **Fase 1** · Instalar y configurar Style Dictionary sobre `packages/tokens` — completada
+      (13 sep 2026): `tokens/` como subcarpeta de origen, `config.json` con `usesDtcg: true`,
+      `package.json` con `files`/`exports` actualizados, script `prepare` automatiza el build en
+      cada `npm install`.
+- [x] **Fase 2** · Primera transformación: `primitive.json` + `semantic.json` → variables CSS —
+      completada (13 sep 2026): `dist/css/variables.css` generado y revisado línea por línea;
+      los aliases de la capa semántica se resuelven correctamente contra las primitivas.
+- ~~**Fase 3** · Resolver la pregunta de gobernanza Figma↔código~~ — **omitida esta vuelta.**
+  Ya quedó resuelta en la Fase 0 de este proyecto como fuera de alcance (Figma es solo referencia
+  visual personal, sin sincronización). Se retoma en una iteración futura si corresponde.
+- **Fase 4** · Documentar el pipeline (README actualizado de `packages/tokens`) — siguiente paso.
+
+## 📔 Bitácora de aprendizaje — Proyecto 2 (Style Dictionary)
+
+| Fase | Concepto | Con mis palabras |
+|---|---|---|
+| 1 | — | |
+| 2 | — | |
+| 3 | — | |
+
+---
+---
+
+# 🧩 PROYECTO 3 — CAPA DE COMPONENTES (pospuesto)
+
+> **Pospuesto hasta que el Proyecto 2 (pipeline Style Dictionary) exista.** El `Button` debe
+> consumir variables CSS reales desde el día uno, no tokens leídos directo del JSON en JS. Todo lo
+> de arriba sigue vigente sin cambios: Regla Cero, escalera de pistas, válvula de escape, firewall
+> de NDA y protocolo de sesión/fase. Esta sección no los repite — los aplica.
+
+**Proyecto 1 (tokens + visor) está completo y publicado** (`@coloma-design/tokens@0.1.0` en NPM,
+visor en Vercel, merge a `main`). Este proyecto construye sobre esa base: una librería de
+componentes Web que consume esos tokens.
+
+## 📋 El proyecto
+
+Nuevo entregable: **`packages/components`** — librería de Web Components que consumen
+`@coloma-design/tokens`, publicable como `@coloma-design/components`.
+
+Primer componente: **Button**, ya diseñado por Carlos en Figma (cuenta personal — confirmado
+NDA-safe el 13 sep 2026, sin conexión al workspace de Yanbal).
+
+### Decisiones ya tomadas
+| Decisión | Elección | Por qué |
+|---|---|---|
+| Ubicación | Mismo monorepo, `packages/components` | Misma forma de trabajar que en FrYDA (Yanbal) |
+| Stack | Web Components (Custom Elements + Shadow DOM) | Continúa el mismo enfoque agnóstico de framework de `apps/token-viewer` |
+| Nombre del paquete | `@coloma-design/components` | Mismo scope que `@coloma-design/tokens` |
+| Primer componente | `Button` | Ya diseñado en Figma; suficientemente simple para validar el patrón completo antes de escalar |
+| Licencia | MIT | Igual que el resto del repo |
+
+### Estructura (actualizada)
+```text
+coloma-design-system/
+├── packages/
+│   ├── tokens/          # 📦 ya publicado
+│   └── components/      # 📦 nuevo — este proyecto
+└── apps/token-viewer/    # 🔍 sin cambios (posible candidato futuro para mostrar componentes en vivo)
+```
+
+## 🚧 Fase 0 · Decisiones pendientes (resolver ANTES de escribir código)
+
+Claude: esto se resuelve en conversación, con preguntas socráticas y debate de arquitectura —
+nunca proponiendo la respuesta directamente.
+
+- [ ] **Variantes del Button:** ¿coinciden con los roles ya definidos en `semantic.json` bajo
+      `color.*.action` (`primary`, `secondary`, `ghost`, `link`)? ¿o el diseño de Figma introduce
+      variantes nuevas que la capa semántica actual no cubre todavía?
+- [ ] **Estados de interacción:** ¿hover/pressed/disabled/focus se apoyan en los tokens semánticos
+      que ya existen (`state-layer.hover/pressed`, `effect.disabled`, `effect.focus`)?
+- [x] **Cómo consume el componente los tokens:** resuelto por el reordenamiento — `packages/components`
+      consumirá las **variables CSS reales** que produzca el Proyecto 2 (Style Dictionary), no el
+      JSON leído directo en JS. Queda pendiente solo el detalle de implementación una vez ese
+      pipeline exista.
+- [ ] **Accesibilidad:** ¿se envuelve un `<button>` nativo dentro del Shadow DOM (hereda semántica y
+      teclado gratis) o se construye desde cero con roles ARIA manuales?
+- [ ] **Testing:** ¿alguna prueba automatizada desde ahora, o se pospone a una fase posterior?
+- [ ] **Nombre de la etiqueta del Custom Element:** ej. `<ds-button>`, `<coloma-button>`, u otro.
+
+## ✅ Checklist tentativo de fases
+
+> Se ajusta según lo que se decida en la Fase 0 — no es definitivo todavía.
+
+- **Fase 1** · Setup de `packages/components` (workspace, `package.json`, dependencia a
+  `@coloma-design/tokens`)
+- **Fase 2** · Estructura base del `Button` (Custom Element + Shadow DOM, variantes visuales)
+- **Fase 3** · Estados de interacción, usando los tokens semánticos ya definidos
+- **Fase 4** · Accesibilidad (teclado, foco visible, lector de pantalla)
+- **Fase 5** · Documentar (`README.md` del paquete + posible mini-galería de componentes)
+- **Fase 6** · Publicar en NPM
+
+## 🔒 NDA — nota específica de este proyecto
+
+Confirmado el 13 sep 2026: el archivo de Figma del `Button` vive en la cuenta **personal** de
+Carlos, sin conexión al workspace de Yanbal. El firewall de NDA de FrYDA (sección de arriba) sigue
+aplicando sin excepción al resto de componentes que se agreguen después — verificar caso por caso,
+no asumir.
+
+## 📔 Bitácora de aprendizaje — Proyecto 2
+
+| Fase | Concepto | Con mis palabras |
+|---|---|---|
+| 1 | — | |
+| 2 | — | |
+| 3 | — | |
+| 4 | — | |
+
+---
+
+> **Recordatorio para Claude:** el mismo criterio de éxito de Proyecto 1 aplica aquí. No se mide en
+> que el `Button` renderice — se mide en que Carlos pueda explicar cada decisión de API y cada línea
+> que escribió.
