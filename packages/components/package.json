@@ -1,0 +1,27 @@
+{
+  "name": "@coloma-design/components",
+  "version": "0.1.0",
+  "description": "Design System Components for Coloma Design",
+  "license": "MIT",
+  "type": "module",
+  "files": [],
+  "exports": {
+    "./components/coloma-*.js": "./*/coloma-*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Carlos Coloma Martínez",
+  "scripts": {
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@coloma-design/tokens": "^0.1.0"
+  },
+  "devDependencies": {
+    "@vitest/browser": "^5.0.0",
+    "playwright": "^1.63.0",
+    "vitest": "^5.0.0"
+  }
+}

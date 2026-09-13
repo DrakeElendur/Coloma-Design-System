@@ -455,6 +455,7 @@ NDA-safe el 13 sep 2026, sin conexión al workspace de Yanbal).
 | Nombre del paquete | `@coloma-design/components` | Mismo scope que `@coloma-design/tokens` |
 | Primer componente | `Button` | Ya diseñado en Figma; suficientemente simple para validar el patrón completo antes de escalar |
 | Licencia | MIT | Igual que el resto del repo |
+| Versionado de la dependencia hacia `@coloma-design/tokens` | **Rango estricto** (`^0.1.0`) en `packages/components`; **rango laxo** (`*` o similar) en `apps/token-viewer` | Un paquete publicado en NPM (`components`) convierte su campo `dependencies` en un contrato público — un rango laxo ahí expone a consumidores externos a rupturas silenciosas si `tokens` publica un cambio incompatible. Un consumidor interno que nunca se publica (`token-viewer`) no tiene ese riesgo: Carlos controla ambos lados dentro del mismo monorepo, así que la agilidad de iterar sin tocar configuración pesa más que el candado. (13 sep 2026 — también corregido: `token-viewer` no declaraba `@coloma-design/tokens` como dependencia real, dependía de un efecto colateral de hoisting de npm workspaces — *phantom dependency* — ya arreglado.) |
 
 ### Estructura (actualizada)
 ```text
