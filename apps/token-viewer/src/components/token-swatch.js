@@ -2,7 +2,7 @@ class TokenSwatch extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: "open"});
-        this.isCopying = false;
+        this.timeoutId = null; 
         this.addEventListener('click', () => this.copiarNombre());
     }
 
@@ -54,8 +54,8 @@ class TokenSwatch extends HTMLElement {
     }
 
     async copiarNombre() {
-        if (this.isCopying) return;
-        this.isCopying = true;
+
+        clearTimeout(this.timeoutId);
 
         const nameNode = this.shadowRoot.querySelector('.token-name');
         const nombreOriginal = this.token.name;
@@ -69,10 +69,10 @@ class TokenSwatch extends HTMLElement {
             nameNode.textContent = "¡Error!";
             nameNode.style.color = "#ef4444";
         } finally {
-            setTimeout(() => {
+            // 2. Guardamos el ID del nuevo temporizador para poder cancelarlo si hay otro clic rápido
+            this.timeoutId = setTimeout(() => {
                 nameNode.textContent = nombreOriginal;
                 nameNode.style.color = "";
-                this.isCopying = false;
             }, 2000);
         }
     }
