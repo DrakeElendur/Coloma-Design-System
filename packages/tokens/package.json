@@ -1,8 +1,12 @@
 {
   "name": "@coloma-design/tokens",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Design System Tokens for Coloma Design",
   "license": "MIT",
+  "files": ["primitive.json", "semantic.json"],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Carlos Coloma Martínez",
   "type": "commonjs",
   "main": "index.js",
