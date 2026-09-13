@@ -2,6 +2,8 @@ class TokenSwatch extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: "open"});
+        this.isCopying = false;
+        this.addEventListener('click', () => this.copiarNombre());
     }
 
     connectedCallback() {
@@ -20,6 +22,11 @@ class TokenSwatch extends HTMLElement {
                     align-items: center;
                     gap: 12px;
                     font-family: sans-serif;
+                    cursor: pointer;
+                    transition: transform 0.1s ease;
+                }
+                :host(:active) {
+                    transform: scale(0.98);
                 }
                 .swatch {
                     display: flex;
@@ -34,8 +41,9 @@ class TokenSwatch extends HTMLElement {
                 .token-info {
                     display: flex;
                     flex-direction: column;
+                    align-items: center;
                 }
-                .token-name { font-weight: bold; font-size: 14px; }
+                .token-name { font-weight: bold; font-size: 14px; transition: color 0.2s ease; }
                 .token-value { font-size: 12px; color: #666; }
             </style>
             ${previewHTML}
@@ -43,7 +51,31 @@ class TokenSwatch extends HTMLElement {
                 <span class="token-name">${name}</span>
                 <span class="token-value">${valueHTML}</span>
             </div>`;
-    };
+    }
+
+    async copiarNombre() {
+        if (this.isCopying) return;
+        this.isCopying = true;
+
+        const nameNode = this.shadowRoot.querySelector('.token-name');
+        const nombreOriginal = this.token.name;
+
+        try {
+            await navigator.clipboard.writeText(nombreOriginal);
+            nameNode.textContent = "¡Copiado!";
+            nameNode.style.color = "#10b981";
+        } catch (error) {
+            console.error("Fallo al acceder al portapapeles:", error);
+            nameNode.textContent = "¡Error!";
+            nameNode.style.color = "#ef4444";
+        } finally {
+            setTimeout(() => {
+                nameNode.textContent = nombreOriginal;
+                nameNode.style.color = "";
+                this.isCopying = false;
+            }, 2000);
+        }
+    }
 
     static getTemplateData(type, value, categoria) {
         let previewHTML;
