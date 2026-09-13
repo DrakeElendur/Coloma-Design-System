@@ -470,19 +470,37 @@ coloma-design-system/
 Claude: esto se resuelve en conversación, con preguntas socráticas y debate de arquitectura —
 nunca proponiendo la respuesta directamente.
 
-- [ ] **Variantes del Button:** ¿coinciden con los roles ya definidos en `semantic.json` bajo
-      `color.*.action` (`primary`, `secondary`, `ghost`, `link`)? ¿o el diseño de Figma introduce
-      variantes nuevas que la capa semántica actual no cubre todavía?
-- [ ] **Estados de interacción:** ¿hover/pressed/disabled/focus se apoyan en los tokens semánticos
-      que ya existen (`state-layer.hover/pressed`, `effect.disabled`, `effect.focus`)?
+- [x] **Variantes del Button:** resuelto (13 sep 2026) — el diseño de Figma **mapea uno a uno**
+      contra los roles ya definidos en `semantic.json` bajo `color.*.action` (`primary`,
+      `secondary`, `ghost`, `link`). No se necesitan variantes nuevas en la capa semántica.
+- [x] **Estados de interacción:** resuelto (13 sep 2026) — cada pseudo-estado (hover, pressed,
+      disabled, focus) ya tiene su token semántico específico definido. No se necesitan tokens
+      nuevos para el `Button`.
 - [x] **Cómo consume el componente los tokens:** resuelto por el reordenamiento — `packages/components`
       consumirá las **variables CSS reales** que produzca el Proyecto 2 (Style Dictionary), no el
       JSON leído directo en JS. Queda pendiente solo el detalle de implementación una vez ese
       pipeline exista.
-- [ ] **Accesibilidad:** ¿se envuelve un `<button>` nativo dentro del Shadow DOM (hereda semántica y
-      teclado gratis) o se construye desde cero con roles ARIA manuales?
-- [ ] **Testing:** ¿alguna prueba automatizada desde ahora, o se pospone a una fase posterior?
-- [ ] **Nombre de la etiqueta del Custom Element:** ej. `<ds-button>`, `<coloma-button>`, u otro.
+- [x] **Accesibilidad:** resuelto (13 sep 2026) — se envuelve un `<button>` nativo dentro del
+      Shadow DOM (hereda semántica, teclado y foco gratis). El `Button` debe soportar los tres
+      `type` nativos (`button`, `submit`, `reset`) y participar de formularios externos en el DOM
+      ligero. Carlos identificó el problema clave por su cuenta: la asignación de "form owner" del
+      navegador no cruza el límite del Shadow DOM, así que un `<button type="submit">` enterrado en
+      el shadow root no se asocia automáticamente con un `<form>` externo. Pendiente de
+      investigación por Carlos: **form-associated custom elements** / `ElementInternals` /
+      `attachInternals()` (MDN) como mecanismo para cerrar ese puente — se retoma cuando termine de
+      investigarlo.
+- [x] **Testing:** resuelto (13 sep 2026) — Carlos decide **no posponerlo**: habrá pruebas
+      automatizadas desde esta fase. Framework elegido: **Vitest** (curva de aprendizaje más suave,
+      sinergia futura con Storybook en Fase 5). Storybook queda deliberadamente fuera de esta
+      decisión — se mantiene en la Fase 5 como estaba planeado, sin mezclar las dos herramientas.
+      Modo de ejecución: **Browser Mode** (navegador real vía Playwright) — decisión explícita de
+      Carlos precisamente porque el caso de `ElementInternals`/form-participation a través del
+      límite del Shadow DOM necesita comportamiento real de navegador, no una emulación jsdom.
+- [x] **Nombre de la etiqueta del Custom Element:** resuelto (13 sep 2026) — **`coloma-button`**.
+      Carlos confirma que mantendrá su nombre personal como convención para todos los componentes
+      de este paquete (`coloma-input`, `coloma-card`, etc.), a diferencia de `token-swatch` en
+      Proyecto 1, que describe su función porque es una utilidad del visor, no una pieza de un DS
+      de cara a terceros.
 
 ## ✅ Checklist tentativo de fases
 
