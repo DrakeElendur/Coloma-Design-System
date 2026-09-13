@@ -413,9 +413,9 @@ pregunta abierta de gobernanza (Figma-first vs. code-first).
 
 | Fase | Concepto | Con mis palabras |
 |---|---|---|
-| 1 | — | |
-| 2 | — | |
-| 3 | — | |
+| 1 | ¿Qué es exports y por qué lo necesitaste? | Es el cortafuegos del package.json. Lo implementamos para sellar la arquitectura interna del paquete, pasando de una simple carpeta abierta a una API estricta. Nos permite exponer rutas limpias y estables (como /css) y bloquea el acceso a archivos crudos, garantizando que podamos reestructurar el interior del repositorio mañana sin romper las importaciones de los consumidores. |
+| 2 | ¿Qué diferencia hay entre lo que resuelve resolverAlias.js y lo que resuelve Style Dictionary? | resolverAlias.js es una utilidad táctica que opera en tiempo de ejecución (runtime) dentro del navegador; su único trabajo es desenredar las referencias para poder pintar la interfaz de la documentación. Style Dictionary es la maquinaria industrial de compilación (compile-time); destruye los alias durante el build para generar el CSS estático definitivo y agnóstico que se consumirá en producción. |
+| 3 | *(omitida — gobernanza Figma quedó fuera de alcance en Fase 0)* | — |
 
 ---
 ---
