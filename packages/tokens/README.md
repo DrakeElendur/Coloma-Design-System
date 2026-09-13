@@ -1,6 +1,6 @@
 # @coloma-design/tokens
 
-Design tokens del **Coloma Design System**, en formato estándar **[DTCG](https://tr.designtokens.org/format/)** (W3C Design Tokens Community Group). Sin build step, sin dependencias — solo JSON.
+Design tokens del **Coloma Design System**, en formato estándar **[DTCG](https://tr.designtokens.org/format/)** (W3C Design Tokens Community Group), con un pipeline de **[Style Dictionary](https://styledictionary.com/)** que los transforma en variables CSS listas para usar.
 
 ## Qué es
 
@@ -8,6 +8,11 @@ Un paquete de tokens de diseño organizado en dos capas:
 
 - **Primitivas** — los valores crudos del sistema (color, espaciado, tipografía, radios, sombras, z-index). Sin significado semántico propio.
 - **Semánticas** — el vocabulario de uso real (`content`, `surface`, `border`). Cada valor es un *alias* a una primitiva — nunca un valor literal.
+
+El paquete distribuye ambas capas en dos formatos, según lo que necesites:
+
+- **JSON fuente** (DTCG) — para inspeccionar los tokens en crudo o alimentar tu propio pipeline de transformación.
+- **Variables CSS** ya compiladas — generadas automáticamente a partir del JSON fuente, listas para importar en cualquier hoja de estilos sin que tengas que correr ningún build de tu lado.
 
 Publicado bajo licencia MIT, pensado para ser adoptado libremente.
 
@@ -17,7 +22,7 @@ Publicado bajo licencia MIT, pensado para ser adoptado libremente.
 npm install @coloma-design/tokens
 ```
 
-> **Nota:** este paquete aún no ha sido publicado en NPM (pendiente en el roadmap del proyecto). Mientras tanto, se consume directamente dentro del monorepo vía npm workspaces.
+Dentro de este monorepo, se consume directamente vía npm workspaces sin necesidad de instalarlo por separado.
 
 ## Arquitectura de capas
 
@@ -50,7 +55,11 @@ Un único eje de color, organizado en tres propiedades:
 
 ## Cómo consumirlo
 
-Al ser JSON plano, se importa directamente — sin build step:
+Dos formas de consumo, según lo que necesites.
+
+### JSON fuente
+
+Se importa directamente, sin build step de tu lado:
 
 ```js
 import primitivas from '@coloma-design/tokens/primitive.json';
@@ -66,7 +75,17 @@ Cada token sigue la forma estándar DTCG:
 }
 ```
 
-Al ser un formato estándar, es compatible con herramientas del ecosistema como **Style Dictionary** para pipelines de transformación a CSS/JS — esa integración no forma parte de este paquete todavía, pero el formato ya está preparado para ella.
+Los alias de la capa semántica (`"{color.primary.100}"`) llegan sin resolver — quien consuma este JSON directo es responsable de resolverlos contra la capa primitiva.
+
+### Variables CSS
+
+```css
+@import '@coloma-design/tokens/css';
+```
+
+Expone todas las variables como custom properties bajo `:root`, con nombres en kebab-case (por ejemplo, `--color-primary-100`). A diferencia del JSON fuente, aquí los alias de la capa semántica **ya vienen resueltos** al valor final de su primitiva — no hay referencias `{...}` sin resolver en el CSS.
+
+Esta salida se genera con [Style Dictionary](https://styledictionary.com/) a partir de los mismos dos archivos JSON fuente. El build corre automáticamente en cada `npm install` de este paquete (hook de ciclo de vida `prepare`), así que la salida CSS siempre está sincronizada con el JSON — nunca hay que regenerarla a mano.
 
 ## Licencia
 

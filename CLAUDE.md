@@ -407,7 +407,15 @@ pregunta abierta de gobernanza (Figma-first vs. code-first).
 - ~~**Fase 3** · Resolver la pregunta de gobernanza Figma↔código~~ — **omitida esta vuelta.**
   Ya quedó resuelta en la Fase 0 de este proyecto como fuera de alcance (Figma es solo referencia
   visual personal, sin sincronización). Se retoma en una iteración futura si corresponde.
-- **Fase 4** · Documentar el pipeline (README actualizado de `packages/tokens`) — siguiente paso.
+- [x] **Fase 4** · Documentar el pipeline (README actualizado de `packages/tokens`) — completada
+      (13 sep 2026): corregidas las afirmaciones obsoletas ("sin build step", "aún no publicado"),
+      documentadas las dos formas de consumo (JSON fuente y variables CSS vía `@coloma-design/tokens/css`).
+
+**Con esto, Proyecto 2 (Pipeline Style Dictionary) queda completo** — Fases 1, 2 y 4 cerradas;
+Fase 3 (gobernanza Figma) omitida por decisión de Fase 0. También se actualizó el `README.md` raíz
+del monorepo (13 sep 2026): estructura del repo, tabla de decisiones y estado del proyecto por
+Proyecto (1 completo, 2 completo, 3 pospuesto) en vez de por fase suelta. Pendiente: commit final
+de la sesión.
 
 ## 📔 Bitácora de aprendizaje — Proyecto 2 (Style Dictionary)
 
