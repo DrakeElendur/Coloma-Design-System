@@ -507,9 +507,16 @@ nunca proponiendo la respuesta directamente.
 
 > Se ajusta según lo que se decida en la Fase 0 — no es definitivo todavía.
 
-- **Fase 1** · Setup de `packages/components` (workspace, `package.json`, dependencia a
-  `@coloma-design/tokens`)
-- **Fase 2** · Estructura base del `Button` (Custom Element + Shadow DOM, variantes visuales)
+- [x] **Fase 1** · Setup de `packages/components` — completada (13 sep 2026): `package.json` con
+  `type: module`, `exports` con patrón de comodines (`./components/coloma-*.js` → `./*/coloma-*.js`),
+  dependencia estricta a `@coloma-design/tokens`, Vitest Browser Mode instalado. Estructura plana:
+  una carpeta por componente colgando de la raíz del paquete.
+- [x] **Fase 2** · Estructura base del `Button` — completada (13 sep 2026): Custom Element
+  `formAssociated` con `ElementInternals`, Shadow DOM con `<button type="button">` nativo + `<slot>`,
+  getter/setter de `variant` (sin `attributeChangedCallback` — el CSS reacciona solo vía
+  `:host([variant])`), despacho submit/reset con `requestSubmit()` / `reset()`, cuatro variantes
+  consumiendo variables CSS reales de `@coloma-design/tokens/css`. Decisiones detalladas en
+  `docs/Decisiones-Button-Proyecto-3.md`.
 - **Fase 3** · Estados de interacción, usando los tokens semánticos ya definidos
 - **Fase 4** · Accesibilidad (teclado, foco visible, lector de pantalla)
 - **Fase 5** · Documentar (`README.md` del paquete + posible mini-galería de componentes)
