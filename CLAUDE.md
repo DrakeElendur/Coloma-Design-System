@@ -517,7 +517,13 @@ nunca proponiendo la respuesta directamente.
   `:host([variant])`), despacho submit/reset con `requestSubmit()` / `reset()`, cuatro variantes
   consumiendo variables CSS reales de `@coloma-design/tokens/css`. Decisiones detalladas en
   `docs/Decisiones-Button-Proyecto-3.md`.
-- **Fase 3** · Estados de interacción, usando los tokens semánticos ya definidos
+- [x] **Fase 3** · Estados de interacción — completada (16 sep 2026): hover/pressed como state
+  layer (`::before` + `isolation: isolate`, excluido en `link` a favor de subrayado), foco con
+  `:focus-visible` + `outline`, `disabled` vía `formDisabledCallback` (una línea:
+  `this.$button.disabled = disabled`) + `:host(:disabled)` real (gracias a `formAssociated`) +
+  `pointer-events: none` para matar el hover fantasma + `cursor: not-allowed` en el host. Overrides
+  de disabled por variante (`secondary`, `link`) resueltos con selectores `:host()` compuestos, sin
+  depender de orden en la hoja. Decisiones detalladas en `docs/Decisiones-Button-Proyecto-3.md`.
 - **Fase 4** · Accesibilidad (teclado, foco visible, lector de pantalla)
 - **Fase 5** · Documentar (`README.md` del paquete + posible mini-galería de componentes)
 - **Fase 6** · Publicar en NPM
@@ -529,13 +535,22 @@ Carlos, sin conexión al workspace de Yanbal. El firewall de NDA de FrYDA (secci
 aplicando sin excepción al resto de componentes que se agreguen después — verificar caso por caso,
 no asumir.
 
-## 📔 Bitácora de aprendizaje — Proyecto 2
+## 📔 Bitácora de aprendizaje — Proyecto 3 (Componentes)
 
 | Fase | Concepto | Con mis palabras |
 |---|---|---|
-| 1 | — | |
-| 2 | — | |
-| 3 | — | |
+| 1 | `exports` con comodines: clave = contrato público, valor = ruta física. ¿Por qué pueden cambiar por separado? | El contrato público es lo que el consumidor importa, la ruta es dónde guardo el archivo. Puedo reorganizar mis carpetas internas sin romper el código de quien usa la librería. Es un cortafuegos. |
+| 2 | Constructor vs `connectedCallback`: ¿qué va en cada uno y qué pasaría si el setup viviera en el segundo? | Constructor para el setup inicial único (Shadow DOM, ElementInternals). connectedCallback para cuando entra al DOM. Si pongo el setup en el segundo, se duplicaría o rompería si el nodo se mueve de lugar en el árbol. |
+| 2 | Property-attribute reflection: ¿por qué `variant` necesita getter/setter pero **no** `attributeChangedCallback`? | El getter/setter sincroniza el DOM con JS. No necesito el callback porque el CSS reacciona solo mediante :host([variant]). Si no hay lógica extra que correr, usar el callback es escribir código muerto. |
+| 2 | `<slot>`: ¿dónde vive el nodo "Guardar" y por qué `querySelector` en el shadow root no lo encuentra? | Sigue viviendo en el Light DOM. El <slot> es solo un proyector visual. querySelector adentro del Shadow DOM no lo encuentra porque estructuralmente el nodo nunca entró ahí. |
+| 2 | `formAssociated` + `ElementInternals`: ¿qué resuelve el navegador solo y qué sigue siendo responsabilidad mía? | El navegador encuentra el <form> padre y hace el enlace automáticamente. Mi responsabilidad es capturar el clic y ordenarle explícitamente al formulario que se envíe o se limpie. |
+| 2 | `requestSubmit()` vs `submit()`: ¿por qué el primero y no el segundo? | requestSubmit() actúa como un botón real: pasa por las validaciones de HTML5 y dispara el evento submit. submit() fuerza el envío ignorando validaciones y dejando ciegos a los listeners. |
+| 2 | Tokens en el Shadow DOM: ¿por qué las variables CSS del `:root` del consumidor llegan adentro sin que yo las importe? | Porque las custom properties son la excepción a la regla: perforan el aislamiento heredándose en cascada desde el Light DOM. Mi componente simplemente las consume desde adentro. |
+| 3 | State layer vs. color de reemplazo: ¿por qué una capa translúcida sirve para las 3 variantes con fondo distinto sin tokens nuevos? | |
+| 3 | `isolation: isolate` + `z-index: -1` en el `::before`: ¿qué stacking context resuelve y qué pasaría sin `isolate`? | |
+| 3 | `:focus-visible` vs `:focus`: ¿por qué el segundo hubiera sido el error? | |
+| 3 | `:host(:disabled)` como selector de estado real, no de atributo: ¿qué lo habilita y por qué no es lo mismo que `:host([variant])`? | |
+| 3 | `pointer-events: none` y el cursor perdido: ¿por qué `cursor: pointer` dejó de verse, y dónde se resuelve? | |
 | 4 | — | |
 
 ---
